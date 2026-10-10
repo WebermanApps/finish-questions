@@ -36,7 +36,25 @@ nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid 
 .list a span{color:#737373;font-size:14px}
 pre{white-space:pre-wrap;background:#F5F5F5;padding:12px;font-size:13px;max-height:340px;overflow:auto}
 .ok{color:#171717;font-size:13px;margin-top:6px;min-height:18px}
-</style></head><body>
+</style><!--mw-polish--><style id="mw-polish">
+/* MW polish layer: /workspace/ops/brand/app-polish-spec.md (Oct 10, 2026). Light mode, brand motion, 44px targets. */
+:root{--mw-ease:cubic-bezier(.2,.8,.2,1);--mw-dur:180ms;--mw-ink:#171717;--mw-grey:#737373;--mw-line:#E5E5E5;--mw-jungle:#0B6E4F;--mw-lagoon:#05668D;--mw-terra:#C1502E}
+html{color-scheme:light only}
+:where(button,.btn,a.btn,[role=button]){transition:translate var(--mw-dur) var(--mw-ease),scale var(--mw-dur) var(--mw-ease),box-shadow var(--mw-dur) var(--mw-ease),background-color var(--mw-dur) var(--mw-ease)}
+@media (hover:hover){:where(button,.btn,a.btn):not(:disabled):not(.leaflet-container *):hover{translate:0 -1px;scale:1.03;box-shadow:0 6px 18px rgba(10,10,10,.12)}}
+:where(button,.btn):not(:disabled):not(.leaflet-container *):active{scale:.97}
+:where(a:not(.btn)){text-underline-offset:4px}
+:focus-visible{outline:2px solid var(--mw-lagoon);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+.mw-share{min-height:44px;min-width:44px;padding:0 14px;border:2px solid var(--mw-ink);background:#fff;color:var(--mw-ink);font-family:Khand,Hind,system-ui,sans-serif;font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;border-radius:0;cursor:pointer}
+.mw-share-float{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:50}
+
+/* Finish Questions: tinted lagoon answer blocks, jungle for the picked answer */
+.opt{background:#05668D1F!important;color:var(--mw-lagoon)!important;border:1px solid transparent!important;border-radius:10px!important;min-height:44px;font-weight:600}
+.opt.on{background:var(--mw-jungle)!important;color:#fff!important;box-shadow:none!important;border-color:var(--mw-jungle)!important}
+
+</style><!--/mw-polish-->
+</head><body>
 <header><div class="row"><b>Finish Questions</b><small id="pc"></small></div><div class="bar"><i id="pb"></i></div></header>
 <main id="m"></main><nav id="nav"></nav>
 <script>
