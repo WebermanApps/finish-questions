@@ -54,7 +54,26 @@ html{color-scheme:light only}
 .opt.on{background:var(--mw-jungle)!important;color:#fff!important;box-shadow:none!important;border-color:var(--mw-jungle)!important}
 
 </style><!--/mw-polish-->
-</head><body>
+<style id="fq-niko">
+.fq-welcome{background:#FFFDF7;border:1px solid #E5E5E5;border-radius:12px;padding:14px 16px;font-size:16px;line-height:1.5;margin:10px 0}.fq-welcome p{margin:0 0 8px}
+.fq-sig{font-family:Khand,Hind,sans-serif;font-weight:700;font-size:18px;margin-top:10px!important}
+.fq-ring{display:flex;align-items:center;gap:10px;font-size:14px;color:#525252}.fq-ring b{font:700 20px Khand,Hind,sans-serif;color:#171717}
+.fq-top{display:flex;align-items:center;gap:10px;margin:6px 0 10px}.fq-top>div:nth-child(2){flex:1;min-width:0}.fq-top .thumb{width:54px!important;height:72px!important;object-fit:cover;border-radius:8px;margin:0!important;float:none!important}
+.fq-room{font:700 20px Khand,Hind,sans-serif;line-height:1.1}.fq-top .fq-ring span{display:none}.fq-top .fq-ring svg{width:48px;height:48px}
+.fq-sheet{border-radius:16px 16px 12px 12px;box-shadow:0 -6px 18px rgba(10,10,10,.06);animation:fqrise .32s cubic-bezier(.2,.8,.2,1)}.fq-sheet.still{animation:none}
+@keyframes fqrise{from{transform:translateY(48px);opacity:0}to{transform:none;opacity:1}}
+.fq-sheet h2{font-family:Khand,Hind,sans-serif!important;font-size:24px;line-height:1.1}.fq-sheet .opt,.fq-sheet textarea{font-family:Hind,system-ui,sans-serif!important}
+.fq-n{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#737373}
+.fq-why{font-size:14px;color:#525252;border-top:1px solid #E5E5E5;padding-top:10px;margin-top:12px}
+.fq-ck{min-width:44px;text-align:right}.fq-ck.on{color:#fff;background:#0B6E4F;border-radius:999px;min-width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+.fq-ok{text-align:center;padding:10px 0}.fq-ok ol{text-align:left;max-width:440px;margin:8px auto;padding-left:22px}.fq-ok li{margin:6px 0}.fq-ok h2{font-size:20px;margin-top:16px}
+.fq-draw{stroke-dasharray:60;stroke-dashoffset:60;animation:swdraw .9s ease-out .2s forwards}@keyframes swdraw{to{stroke-dashoffset:0}}
+nav .btn:not(.pri),.ph label{border-radius:999px!important;border:2px solid #6B5E50!important;color:#6B5E50!important;background:#fff!important;font-family:Khand,Hind,sans-serif!important;font-weight:700!important;letter-spacing:.08em;text-transform:uppercase}
+nav .btn.pri{border-radius:999px!important;border:2px solid #0B6E4F!important;color:#0B6E4F!important;background:#fff!important}
+nav .btn:not(.pri):active,.ph label:active{background:#6B5E50!important;color:#fff!important}nav .btn.pri:active{background:#0B6E4F!important;color:#fff!important}
+.ph label{min-height:44px;display:inline-flex;align-items:center;padding:0 16px}
+.fq-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid #E5E5E5;margin:24px 0 90px;padding-top:12px;font-size:14px;color:#525252}.fq-foot b{font-family:Khand,Hind,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#171717}
+</style></head><body>
 <header><div class="row"><b>Finish Questions</b><small id="pc"></small></div><div class="bar"><i id="pb"></i></div></header>
 <main id="m"></main><nav id="nav"></nav>
 <script>
@@ -67,13 +86,13 @@ const answered=q=>{const a=S.a[q.id];return a&&((a.v&&a.v.length)||a.other||a.un
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function prog(){const n=QS.filter(answered).length;document.getElementById("pb").style.width=(n/QS.length*100)+"%";document.getElementById("pc").textContent=n+" / "+QS.length}
 function nav(btns){document.getElementById("nav").innerHTML=btns.map(([t,f,p])=>`<button class="btn${p?" pri":""}" data-f="${f}">${t}</button>`).join("");document.querySelectorAll("nav .btn").forEach(b=>b.onclick=()=>ACT[b.dataset.f]())}
-const ACT={start:()=>go(firstOpen()),list:()=>listV(),next:()=>go(S.i+1),prev:()=>go(S.i-1),send:()=>sendV(),home:()=>homeV()};
+const ACT={start:()=>goQ(firstOpenQ()),list:()=>listV(),next:()=>goQ(curQ()+1,1),prev:()=>goQ(curQ()-1,-1),send:()=>sendV(),home:()=>homeV()};
 function firstOpen(){const k=R.findIndex(r=>r.qs.some(q=>!answered(q)));return k<0?0:k}
 function homeV(){S.i=-1;save();prog();const n=QS.filter(answered).length;
- document.getElementById("m").innerHTML=`<div class="lv">Moschouris Residence</div><h1>Finish Questions</h1><p>Only the things we could not find in the documents. ${QS.length} questions in ${R.length} stops, room by room.</p><p class="muted">Tap an answer, or use Other or Not Sure. Add a photo if it helps. Answers save on this phone. When done, tap Send Answers.</p>`;
+ document.getElementById("m").innerHTML=`<div class="lv">Moschouris Residence</div><h1>Finish Questions</h1><div class="fq-welcome"><p>Hi Niko and Vivian,</p><p>These are the last few finish details I could not find in the documents. It is ${QS.length} quick questions, room by room, one at a time. Tap an answer, or Not Sure. Add a photo if it helps.</p><p>Your answers save on this phone. When you are done, tap Send Answers.</p><p class="fq-sig">Thank you!<br>– Max</p></div>${fqRing(n)}`+FOOT;
  nav([["Rooms","list"],[n?"Continue":"Start","start",1]])}
-function listV(){S.i=-1;save();let h=`<h1>Rooms</h1><div class="list">`;R.forEach((r,k)=>{const d=r.qs.filter(answered).length;h+=`<a href="#" data-k="${k}"><div><div class="lv">${esc(r.level)}</div>${esc(r.name)}</div><span>${d} / ${r.qs.length}</span></a>`});
- document.getElementById("m").innerHTML=h+`</div>`;document.querySelectorAll(".list a").forEach(a=>a.onclick=e=>{e.preventDefault();go(+a.dataset.k)});nav([["Home","home"],["Send Answers","send",1]])}
+function listV(){S.i=-1;save();let h=`<h1>Rooms</h1><div class="list">`;R.forEach((r,k)=>{const d=r.qs.filter(answered).length;h+=`<a href="#" data-k="${k}"><div><div class="lv">${esc(r.level)}</div>${esc(r.name)}</div><span class="fq-ck${d===r.qs.length?" on":""}">${d===r.qs.length?"✓":d+" / "+r.qs.length}</span></a>`});
+ document.getElementById("m").innerHTML=h+`</div>`;document.querySelectorAll(".list a").forEach(a=>a.onclick=e=>{e.preventDefault();const k=+a.dataset.k;goQ(QS.findIndex(q=>q.room===R[k].name))});nav([["Home","home"],["Send Answers","send",1]])}
 function go(k){if(k<0)return homeV();if(k>=R.length)return sendV();S.i=k;save();const r=R[k];
  let h=`${r.thumb?`<img class="thumb" src="${r.thumb}" alt="">`:""}<div class="lv">${esc(r.level)} · Stop ${k+1} of ${R.length}</div><h1>${esc(r.name)}</h1>`;
  r.qs.forEach(q=>{const a=S.a[q.id]||{};h+=`<div class="q${answered(q)?" done":""}" data-q="${q.id}"><h2>${esc(q.q)}</h2><p class="ctx">${esc(q.ctx)}</p><div class="opts">`+
@@ -87,6 +106,29 @@ function go(k){if(k<0)return homeV();if(k>=R.length)return sendV();S.i=k;save();
   el.querySelector("input[type=file]").onchange=e=>{const f=e.target.files[0];if(!f)return;const im=new Image();im.onload=()=>{const s=Math.min(1,720/Math.max(im.width,im.height));const c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);A().photo=c.toDataURL("image/jpeg",.7);save();go(k)};im.src=URL.createObjectURL(f)};
   const rm=el.querySelector("[data-rm]");if(rm)rm.onclick=()=>{delete A().photo;save();go(k)}});
  prog();nav([["Back","prev"],["Rooms","list"],[k==R.length-1?"Finish":"Next","next",1]])}
+/* One question per screen (deck 2026-10-11b): the next question rises as a sheet. S.i stays the room index, S.q is the question. */
+const FOOT=`<footer class="fq-foot"><b>Max Weberman</b><span>Questions? Call Max.</span></footer>`;
+const WHY="Why it matters: so I can order the right parts and keep your home records accurate.";
+function curQ(){return Number.isInteger(S.q)?S.q:Math.max(0,QS.findIndex(q=>q.room===(R[S.i]||R[0]).name))}
+function firstOpenQ(){const i=QS.findIndex(q=>!answered(q));return i<0?0:i}
+function fqRing(n){const t=QS.length,C=2*Math.PI*22,f=t?n/t:0;return `<div class="fq-ring"><svg width="56" height="56" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="22" fill="none" stroke="#E5E5E5" stroke-width="6"/><circle cx="28" cy="28" r="22" fill="none" stroke="#0B6E4F" stroke-width="6" stroke-linecap="round" stroke-dasharray="${C*f} ${C}" transform="rotate(-90 28 28)"/></svg><span><b>${n} of ${t}</b> answered</span></div>`}
+function goQ(n,dir){if(n<0)return homeV();if(n>=QS.length)return sendV();const q=QS[n],k=R.findIndex(r=>r.name===q.room),r=R[k],a=S.a[q.id]||{};S.q=n;S.i=k;save();
+ const done=QS.filter(answered).length;
+ let h=`<div class="fq-top">${r.thumb?`<img class="thumb" src="${r.thumb}" alt="">`:""}<div><div class="lv">${esc(r.level)} · Stop ${k+1} of ${R.length}</div><div class="fq-room">${esc(r.name)}</div></div>${fqRing(done)}</div>
+ <div class="q fq-sheet${answered(q)?" done":""}" data-q="${q.id}"><div class="fq-n">Question ${n+1} of ${QS.length}</div><h2>${esc(q.q)}</h2><p class="ctx">${esc(q.ctx)}</p><div class="opts">`+
+  q.o.map((o,i)=>`<button class="opt${(a.v||[]).includes(o)?" on":""}" data-o="${i}">${esc(o)}</button>`).join("")+
+  `<button class="opt ns${a.unsure?" on":""}" data-ns="1">Not Sure</button></div><textarea placeholder="${q.t?"Type the answer":"Other / notes"}">${esc(a.other||"")}</textarea>`+
+  `<div class="ph"><label>Add Photo<input type="file" accept="image/*" hidden></label>${a.photo?`<img src="${a.photo}" alt=""><button data-rm="1">Remove</button>`:""}</div><p class="fq-why">${esc(WHY)} <b>– Max</b></p></div>`+FOOT;
+ const M=document.getElementById("m");M.innerHTML=h;if(dir)window.scrollTo(0,0);if(!dir)M.querySelector(".fq-sheet").classList.add("still");
+ const el=M.querySelector(".q");const A=()=>S.a[q.id]=S.a[q.id]||{v:[]};
+ el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{const a=A();if(b.dataset.ns){a.unsure=!a.unsure;if(a.unsure)a.v=[]}else{const o=q.o[+b.dataset.o];a.unsure=false;if(q.m){a.v=a.v.includes(o)?a.v.filter(x=>x!=o):[...a.v,o]}else a.v=a.v[0]==o?[]:[o]}save();goQ(n)});
+ el.querySelector("textarea").oninput=e=>{const a=A();a.other=e.target.value;save();prog();el.classList.toggle("done",!!answered(q))};
+ el.querySelector("input[type=file]").onchange=e=>{const f=e.target.files[0];if(!f)return;const im=new Image();im.onload=()=>{const s=Math.min(1,720/Math.max(im.width,im.height));const c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);A().photo=c.toDataURL("image/jpeg",.7);save();goQ(n)};im.src=URL.createObjectURL(f)};
+ const rm=el.querySelector("[data-rm]");if(rm)rm.onclick=()=>{delete A().photo;save();goQ(n)};
+ prog();nav([["Back","prev"],["Rooms","list"],[n==QS.length-1?"Finish":"Next","next",1]])}
+function successV(how){const M=document.getElementById("m");M.innerHTML=`<div class="fq-ok"><svg width="72" height="72" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="28" fill="none" stroke="#0B6E4F" stroke-width="4"/><path class="fq-draw" d="M19 33 L28 42 L46 23" fill="none" stroke="#0B6E4F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg><h1>${how==="share"?"Sent to Max":"Answers Ready"}</h1>
+ <h2>What Happens Next</h2><ol><li>${how==="share"?"Max gets your answers and photos.":"Send the copied text or the JSON file to Max."}</li><li>Max checks them against the orders and the house records.</li><li>If anything is unclear, Max will reach out.</li></ol><p class="fq-sig">Thank you, Niko and Vivian. – Max</p></div>`+FOOT;window.scrollTo(0,0);
+ nav([["Back To Answers","send"],["Home","home",1]])}
 function out(){const lines=["Moschouris Finish Questions - answers from Max",new Date().toLocaleString(),""];const js={app:"finish-questions",house:"Moschouris",date:new Date().toISOString(),answers:[]};
  R.forEach(r=>{const qs=r.qs.filter(answered);if(!qs.length)return;lines.push(r.name.toUpperCase());qs.forEach(q=>{const a=S.a[q.id];const v=[...(a.v||[])];if(a.other)v.push(a.other);const txt=!v.length?(a.unsure?"Not sure":"(photo only)"):(a.unsure?"Not sure: ":"")+v.join("; ");lines.push("- "+q.q+" "+txt+(a.photo?" [photo]":""));js.answers.push({room:r.name,id:q.id,question:q.q,choice:a.v||[],other:a.other||"",notSure:!!a.unsure,photo:a.photo||null})});lines.push("")});
  const open=QS.filter(q=>!answered(q));if(open.length)lines.push("Not answered: "+open.length);return{text:lines.join("\n"),json:js}}
@@ -94,12 +136,12 @@ function sendV(){S.i=-1;save();prog();const o=out();
  document.getElementById("m").innerHTML=`<h1>Send Answers</h1><p class="muted">${o.json.answers.length} answered of ${QS.length}. Share sends the text plus a .json file.</p><pre id="txt">${esc(o.text)}</pre><div class="ok" id="ok"></div>
  <div class="opts"><button class="opt" id="cp">Copy Text</button><button class="opt" id="dl">Download JSON</button></div>`;
  const blob=()=>new Blob([JSON.stringify(o.json,null,1)],{type:"application/json"});const fn="moschouris-finish-answers.json";
- document.getElementById("cp").onclick=async()=>{try{await navigator.clipboard.writeText(o.text);document.getElementById("ok").textContent="Copied."}catch(e){const t=document.createElement("textarea");t.value=o.text;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove();document.getElementById("ok").textContent="Copied."}};
- document.getElementById("dl").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(blob());a.download=fn;a.click()};
- ACT.share=async()=>{const f=new File([blob()],fn,{type:"application/json"});try{if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({title:"Finish answers",text:o.text,files:[f]});else if(navigator.share)await navigator.share({title:"Finish answers",text:o.text});else{document.getElementById("cp").click();document.getElementById("ok").textContent="Sharing not available. Text copied."}}catch(e){}};
+ document.getElementById("cp").onclick=async()=>{try{await navigator.clipboard.writeText(o.text);document.getElementById("ok").textContent="Copied.";successV("copy")}catch(e){const t=document.createElement("textarea");t.value=o.text;document.body.appendChild(t);t.select();document.execCommand("copy");t.remove();document.getElementById("ok").textContent="Copied.";successV("copy")}};
+ document.getElementById("dl").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(blob());a.download=fn;a.click();setTimeout(()=>successV("download"),300)};
+ ACT.share=async()=>{const f=new File([blob()],fn,{type:"application/json"});try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({title:"Finish answers",text:o.text,files:[f]});successV("share")}else if(navigator.share){await navigator.share({title:"Finish answers",text:o.text});successV("share")}else{document.getElementById("cp").click();document.getElementById("ok").textContent="Sharing not available. Text copied."}}catch(e){}};
  nav([["Rooms","list"],["Share","share",1]])}
 window.__out=out;
-S.i>=0?go(S.i):homeV();
+S.i>=0?goQ(curQ()):homeV();
 </script><style id="mw-share-css">
 :root{--mw-ease:cubic-bezier(.2,.8,.2,1);--mw-dur:180ms}
 .mw-hover{transition:transform var(--mw-dur) var(--mw-ease),box-shadow var(--mw-dur) var(--mw-ease),background-color var(--mw-dur) var(--mw-ease)}
@@ -118,4 +160,29 @@ b.onclick=async()=>{const url=location.href.split('#')[0];const title=document.t
  try{await navigator.clipboard.writeText(text+' '+url)}catch(e){const t=document.createElement('textarea');t.value=text+' '+url;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove()}
  msg.style.display='block';setTimeout(()=>msg.style.display='none',1800)}})();
 </script>
-<script>document.documentElement.style.setProperty('--mw-share-offset','72px');window.mwShareSummary=()=>{try{return 'Finish Questions: '+Object.keys(S.a).length+' of '+QS.length+' answered'}catch(e){return ''}};function mwHov(){document.querySelectorAll('.opt,.btn,.q').forEach(e=>e.classList.add('mw-hover'))}mwHov();new MutationObserver(mwHov).observe(document.body,{childList:true,subtree:true});</script></body></html>
+<script>document.documentElement.style.setProperty('--mw-share-offset','72px');window.mwShareSummary=()=>{try{return 'Finish Questions: '+Object.keys(S.a).length+' of '+QS.length+' answered'}catch(e){return ''}};function mwHov(){document.querySelectorAll('.opt,.btn,.q').forEach(e=>e.classList.add('mw-hover'))}mwHov();new MutationObserver(mwHov).observe(document.body,{childList:true,subtree:true});</script><!--mw-niko--><style id="mw-niko">
+/* Niko & Vivian apps (deck 2026-10-11b): wordmark left + Share right + thin rule; earthy outline buttons that fill on press */
+:root{--mw-jungle:#0B6E4F;--mw-earth:#6B5E50;--mw-terra:#C1502E;--mw-lagoon:#05668D}
+.mwbar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:52px;padding:4px 0;border-bottom:1px solid #E5E5E5;margin:0 0 6px}
+.mwbar .wm{font:700 15px Khand,Hind,sans-serif;letter-spacing:.14em;color:#171717;text-transform:uppercase;white-space:nowrap}
+.mwbar img.logo{margin:0!important;max-height:22px;width:auto}
+.mwbar #mwShare{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;font:700 12px Khand,Hind,sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;position:static!important;bottom:auto!important;right:auto!important;flex:none;border-radius:999px!important;border:2px solid var(--mw-earth)!important;color:var(--mw-earth)!important;background:#fff!important}
+.mwbar #mwShare:active{background:var(--mw-earth)!important;color:#fff!important}
+#mwShareMsg{top:60px!important;bottom:auto!important}
+/* earthy outline buttons, fill on press */
+.nav button,.nav .btn,button.pri,button.sec,.btn.pri,.btn.sec,label.btn.cam{border-radius:999px!important;background:#fff!important;font-family:Khand,Hind,sans-serif!important;font-weight:700!important;letter-spacing:.08em!important;text-transform:uppercase}
+.nav button.pri,.nav .grn,button.pri,.btn.pri,button.grn{border:2px solid var(--mw-jungle)!important;color:var(--mw-jungle)!important}
+.nav button.sec,button.sec,.btn.sec,label.btn.cam{border:2px solid var(--mw-earth)!important;color:var(--mw-earth)!important}
+.nav button.pri:active,button.pri:active,button.grn:active,.btn.pri:active{background:var(--mw-jungle)!important;color:#fff!important}
+.nav button.sec:active,button.sec:active,.btn.sec:active,label.btn.cam:active{background:var(--mw-earth)!important;color:#fff!important}
+.nav button.pri:hover,.nav .grn:hover,button.pri:hover,button.grn:hover{background:#fff!important}
+.nav button.pri:active,.nav .grn:active{background:var(--mw-jungle)!important;color:#fff!important}
+</style>
+<script id="mw-niko-js">(function(){function bar(){var h=document.querySelector('header');if(!h||h.querySelector('.mwbar'))return;var b=document.createElement('div');b.className='mwbar';
+var logo=h.querySelector('img.logo');if(logo)b.appendChild(logo);else{var w=document.createElement('span');w.className='wm';w.textContent='Max Weberman';b.appendChild(w)}
+var s=document.getElementById('mwShare');if(!s){s=document.createElement('button');s.id='mwShare';s.type='button';s.setAttribute('aria-label','Share this app');s.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="M12 3v13"/><path d="M7 8l5-5 5 5"/></svg>Share';
+s.onclick=async function(){var url=location.href.split('#')[0],t=document.title;if(navigator.share){try{await navigator.share({title:t,url:url});return}catch(e){if(e&&e.name==='AbortError')return}}
+if(/iPhone|iPad|Android/i.test(navigator.userAgent)){location.href='sms:?&body='+encodeURIComponent(t+' '+url);return}try{await navigator.clipboard.writeText(url);s.lastChild.textContent='Copied';setTimeout(function(){s.lastChild.textContent='Share'},1600)}catch(e){prompt('Copy this link:',url)}}}
+b.appendChild(s);h.insertBefore(b,h.firstChild);document.documentElement.style.setProperty('--mw-share-offset','0px')}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bar);else bar();})();</script><!--/mw-niko-->
+</body></html>
