@@ -228,4 +228,22 @@ s.onclick=async function(){var url=location.href.split('#')[0],t=document.title;
 if(/iPhone|iPad|Android/i.test(navigator.userAgent)){location.href='sms:?&body='+encodeURIComponent(t+' '+url);return}try{await navigator.clipboard.writeText(url);s.lastChild.textContent='Copied';setTimeout(function(){s.lastChild.textContent='Share'},1600)}catch(e){prompt('Copy this link:',url)}}}
 b.appendChild(s);h.insertBefore(b,h.firstChild);document.documentElement.style.setProperty('--mw-share-offset','0px')}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bar);else bar();})();</script><!--/mw-niko-->
+
+<!-- mw-submit -->
+<script src="submit.js"></script>
+<script src="submit-hook.js"></script>
+<script>
+MWHook({app:'finish-questions-r3',deck:'2026-10-13',
+ isEnd:function(){var h=document.querySelector('#m h1');return !!h&&/^(Share|Send) Answers$/.test(h.textContent.trim());},
+ mount:function(){return document.getElementById('m');},before:function(){return document.querySelector('#m .fq-foot');},
+ intro:'Tap Submit to send your answers and notes straight to Max. Photos are not sent here (only how many you added); use Share Photos for those.',
+ results:function(){return out().json;},
+ notes:function(){return QS.filter(function(q){return S.a[q.id]&&S.a[q.id].other&&String(S.a[q.id].other).trim();}).map(function(q){return q.room+' / '+q.q+': '+String(S.a[q.id].other).trim();}).join('\n');}});
+</script>
+<!-- /mw-submit -->
+<!-- mw-built-footer -->
+<style>.mw-built{display:block;clear:both;width:100%;box-sizing:border-box;margin:0;padding:14px 16px calc(14px + var(--mw-built-pad,0px) + env(safe-area-inset-bottom,0px));background:#fafaf8;text-align:center;font-family:Hind,system-ui,sans-serif;font-size:12px;line-height:1.4;color:#8a8a8a;position:relative;z-index:1}.mw-built a{color:#8a8a8a;text-decoration:none;transition:color .15s,opacity .15s}.mw-built a.mw-hover:hover,.mw-built a:focus-visible{color:#555;text-decoration:underline}</style>
+<footer class="mw-built"><a class="mw-hover" href="https://maxweberman.com" target="_blank" rel="noopener">Built by Max Weberman</a></footer>
+<script>(function(){var r=document.documentElement;function m(){var ft=document.querySelector('.mw-built'),h=0,vh=innerHeight;if(!ft)return;document.querySelectorAll('body *').forEach(function(e){if(ft.contains(e))return;var s=getComputedStyle(e);if((s.position=='fixed'||s.position=='sticky')&&s.display!='none'&&s.visibility!='hidden'){var b=e.getBoundingClientRect();if(b.height>0&&b.height<vh*.5&&b.bottom>=vh-2&&b.top>vh*.5)h=Math.max(h,vh-b.top)}});r.style.setProperty('--mw-built-pad',Math.ceil(h)+'px')}addEventListener('load',m);addEventListener('resize',m);setTimeout(m,600);setTimeout(m,2000)})();</script>
+<!-- /mw-built-footer -->
 </body></html>
