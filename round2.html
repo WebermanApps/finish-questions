@@ -198,6 +198,23 @@ MWHook({app:'finish-questions-r2',deck:'2026-10-13',
  results:function(){return out().json;},
  notes:function(){return QS.filter(function(q){return S.a[q.id]&&S.a[q.id].other&&String(S.a[q.id].other).trim();}).map(function(q){return q.room+' / '+q.q+': '+String(S.a[q.id].other).trim();}).join('\n');}});
 </script>
+<script src="mid-submit.js?v=mid2"></script>
+<script>
+(function(){var TOTAL=QS.length;
+function pick(ids){return QS.filter(function(q){return ids.indexOf(String(q.id))>=0;});}
+MWMid({near:function(){return document.getElementById('mwShare');},app:'finish-questions-r2',deck:'2026-10-13',
+ answered:function(){return QS.filter(answered).map(function(q){return String(q.id);});},
+ open:function(){return QS.filter(function(q){return !answered(q);}).map(function(q){return String(q.id);});},
+ skipped:function(){return QS.filter(function(q){var a=S.a[q.id];return a&&a.skip&&!answered(q);}).map(function(q){return String(q.id);});},
+ afterSend:function(ids,sk){sk.forEach(function(id){var a=S.a[id];if(a)delete a.skip;});save();},
+ total:function(){return TOTAL;},
+ results:function(ids){return {app:'finish-questions',house:'Moschouris',date:new Date().toISOString(),answers:pick(ids).map(function(q){var a=S.a[q.id]||{};return {room:q.room,id:q.id,question:q.q,choice:a.v||[],other:a.other||'',notSure:!!a.unsure,photos:a.photo||0};})};},
+ notes:function(ids){return pick(ids).filter(function(q){return S.a[q.id]&&S.a[q.id].other&&String(S.a[q.id].other).trim();}).map(function(q){return q.room+' / '+q.q+': '+String(S.a[q.id].other).trim();}).join('\n');},
+ hide:function(ids,fresh){for(var k=R.length-1;k>=0;k--){var r=R[k];r.qs=r.qs.filter(function(q){return ids.indexOf(String(q.id))<0;});if(!r.qs.length)R.splice(k,1);}
+  QS.splice.apply(QS,[0,QS.length].concat(R.flatMap(function(r){return r.qs.map(function(q){return Object.assign({},q,{room:r.name});});})));
+  if(fresh){if(QS.length){goQ(firstOpenQ(),1);}else homeV();}
+  else if(S.i>=0&&QS.length){S.q=Math.min(curQ(),QS.length-1);goQ(S.q);}else homeV();}});})();
+</script>
 <!-- /mw-submit -->
 <!-- mw-built-footer -->
 <style>.mw-built{display:block;clear:both;width:100%;box-sizing:border-box;margin:0;padding:14px 16px calc(14px + var(--mw-built-pad,0px) + env(safe-area-inset-bottom,0px));background:#fafaf8;text-align:center;font-family:Hind,system-ui,sans-serif;font-size:12px;line-height:1.4;color:#8a8a8a;position:relative;z-index:1}.mw-built a{color:#8a8a8a;text-decoration:none;transition:color .15s,opacity .15s}.mw-built a.mw-hover:hover,.mw-built a:focus-visible{color:#555;text-decoration:underline}</style>
